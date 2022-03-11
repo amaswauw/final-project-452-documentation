@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<head>
+  <title>CSS 452 - Final Project Documentation (Team Gamers Unite)</title>
+</head>
+
+<body>
+  <div>
+    Aman Swaroop, Kuzey Gok, Myles Dalton<br>
+    UWB CSS 452 | Professor Kelvin Sung<br>
+    03/11/2022
+  </div>
+  <h1 style="text-align: center;">Projectile Systems SDK</h1>
+  <h2>Module Description</h2>
+  Our module supports the creation of and general implementation of projectile systems.Our projectile system will be an
+  extension of the Game.Object class found in the game_objects file of the engine. Our current game engine uses the
+  Game.Object class to create projectiles. While this is possible, it is a very lackluster and barebones implementation
+  of a projectile. The game objects class was created as a main class for any game object made in the game and cannot be
+  considered a specialized solution for projectile objects.
+  <h2>Application Programming Interface (API)</h2>
+  <h3 style="text-decoration: underline;">List of scripts:</h3>
+  <div>projectile.js:
+    <ul>
+      <li>Creates a projectile object which is extended from the game object class.</li>
+      <li>Sets the path of the projectile and calculates next projectile location based on the set path type.</li>
+      <li>Sets up the ability to get a new trail renderable set up and changes the location of the trail renderable such
+        that it spawns every (input) trail interval time</li>
+      <li>Sets its own lifetime and is destroyed after that lifetime is complete</li>
+      <li>Has behavior effects beyond the bounds of creation and deletion that include object collision (among other
+        things)</li>
+    </ul>
+  </div>
+  <div>trail_renderable.js:
+    <ul>
+      <li>Sets up the projectile's trail renderable based on the projectile's previously known location</li>
+      <li>Sets itself to invalid after the lifetime of the renderable has been completed (or if the parent projectile
+        dies)</li>
+    </ul>
+  </div>
+  <h3 style="text-decoration: underline;">List of functions:</h3>
+  <h4 style="color: blue;">Projectile</h4>
+  <div>
+    <ul>
+      <li>Projectile (renderable, _lifetime, _trailTexture, _trailLifetime, _trailInterval)</li>
+      <ul>
+        <li>Parameter 1: renderable</li>
+        <ul>
+          <li>Accepts a string value for a renderable which the Projectile class will turn into a new texture renderable
+            to send to the super class (Game Object)</li>
+        </ul>
+        <li>Parameter 2: _lifetime</li>
+        <ul>
+          <li>Defines the lifetime of the projectile such that after the lifetime has elapsed, the projectile will no
+            longer be valid</li>
+        </ul>
+        <li>Parameter 3: _trailTexture</li>
+        <ul>
+          <li>Accepts a string value for the trailTexture which the Projectile class will set as the projectile's
+            trails' texture renderable. This will further be called in a future method to be drawn at a specific
+            location.</li>
+          <li>The value of the trail texture will be defaulted to null in the case that the user does not provide a
+            value for the trail's texture.</li>
+        </ul>
+        <li>Parameter 4: _trailLifetime</li>
+        <ul>
+          <li>Defines the amount of time a trail renderable will be alive as it follows a projectile. After the amount
+            of time has elapsed, the trail renderable will be set to invalid inside the TrailRenderable class.</li>
+          <li>The value is defaulted to 0 in the case that no trail lifetime has been defined by the user.</li>
+        </ul>
+        <li>Parameter 5: _trailInterval</li>
+        <ul>
+          <li>Defines the amount of time it takes to spawn a new trail renderable. After the given amount of time has
+            elapsed a new trail renderable will be spawned in the projectile's previously known location.</li>
+          <li>The value is defaulted to 1000 milliseconds in the case that the user has not defined a value for this
+            parameter.</li>
+        </ul>
+        <li>This constructor sets up the projectile object and defines the necessary functionality needed throughout the
+          entire class, which includes, but is not limited to the following:</li>
+        <ul>
+          <li>Projectile lifetime</li>
+          <li>Projectile creation time</li>
+          <li>Projectile acceleration</li>
+          <li>Projectile maximum rotation</li>
+          <li>Projectile target point (in the case that one is needed for tracking of an object)</li>
+          <li>Projectile path type (because that changes the overall algorithm of projectile movement)</li>
+          <li>Projectile trail interval</li>
+          <li>Projectile trail lifetime</li>
+          <li>Projectile trail renderable</li>
+          <li>Projectile trail set</li>
+          <li>Projectile trail timer</li>
+          <li>Projectile validity</li>
+          <li>Projectile trailSize</li>
+        </ul>
+      </ul>
+      <li>setTrail(trailRenderable)</li>
+      <ul>
+        <li>Parameter 1: trailRenderable</li>
+        <ul>
+          <li>Accepts a string value for the trailRenderable which will override the previous trail renderable's value.
+          </li>
+        </ul>
+        <li>Sets the current projectile's trail renderable to be the input parameter's value of trailRenderable.</li>
+      </ul>
+      <li>spawnTrail()</li>
+      <ul>
+        <li>No parameters needed</li>
+        <li>Spawns a trail renderable if the projectile is valid, a trail renderable is defined, and the total amount of
+          time elapsed is greater than or equal to the trail timer</li>
+      </ul>
+      <li>setTrailSize(x, y)</li>
+      <ul>
+        <li>Parameter 1: x</li>
+        <ul>
+          <li>Accepts a numerical value for the x parameter which defines the total width of the trail renderable</li>
+        </ul>
+        <li>Parameter 2: y</li>
+        <ul>
+          <li>Accepts a numerical value for the y parameter which defines the total height of the trail renderable</li>
+        </ul>
+        <li>Sets the size of the trail renderable based on the input x and y variables. (x notates the width of the
+          renderable and y notates the height of the trail renderable)</li>
+      </ul>
+      <li>setAcceleration(acc)</li>
+      <ul>
+        <li>Parameter 1: acc</li>
+        <ul>
+          <li>Accepts a numerical value for the acc parameter which will override the previous projectile acceleration's
+            value.</li>
+        </ul>
+        <li>Sets the current projectile's acceleration value to be the input parameter's value of acc.</li>
+      </ul>
+      <li>setLifetime(lifetime)</li>
+      <ul>
+        <li>Parameter 1: lifetime</li>
+        <ul>
+          <li>Accepts a numerical value for the lifetime parameter which will override the previous projectile
+            lifetime's value.</li>
+        </ul>
+        <li>Sets the current projectile's lifetime value to be the input parameter's value of lifetime.</li>
+      </ul>
+      <li>bounce(gameObjectTypes)</li>
+      <ul>
+        <li>Parameter 1: gameObjectTypes</li>
+        <ul>
+          <li>Accepts an array of game object types as a parameter.</li>
+        </ul>
+        <li>Checks to see whether the game object types are of the correct type and bounces off the object if it is.
+        </li>
+      </ul>
+      <li>setStraight(target, targetPoint, targetDirection, speed, acceleration)</li>
+      <ul>
+        <li>Parameter 1: target</li>
+        <ul>
+          <li>Accepts an input transform of an object as a parameter. Defaults to null if nothing is provided</li>
+        </ul>
+        <li>Parameter 2: targetPoint</li>
+        <ul>
+          <li>Accepts an input point as a parameter. Defaults to null if nothing is provided</li>
+        </ul>
+        <li>Parameter 3: targetDirection</li>
+        <ul>
+          <li>Accepts an input direction as a parameter. Defaults to null if nothing is provided</li>
+        </ul>
+        <li>Parameter 4: speed</li>
+        <ul>
+          <li>Accepts a numerical value of speed as a parameter. Defaults to 0 if nothing is provided.</li>
+        </ul>
+        <li>Parameter 5: acceleration</li>
+        <ul>
+          <li>Accepts a numerical value of acceleration as a parameter. Defaults to 0 if nothing is provided.</li>
+        </ul>
+        <li>Calculates the direction and speed of a projectile and sets the current projectile's speed and acceleration
+          to be the input speed and acceleration, respectively.</li>
+      </ul>
+      <li>setTracking(target, maxRotation, speed, acceleration)</li>
+      <ul>
+        <li>Parameter 1: target</li>
+        <ul>
+          <li>Accepts an input transform of an object as a parameter.</li>
+        </ul>
+        <li>Parameter 2: maxRotation</li>
+        <ul>
+          <li>Accepts a max rotation (in rad) as an input. Defaults to 2 * Math.PI if nothing is provided by the user.
+          </li>
+        </ul>
+        <li>Parameter 3: speed</li>
+        <ul>
+          <li>Accepts a numerical value of speed as a parameter. Defaults to 0 if nothing is provided.</li>
+        </ul>
+        <li>Parameter 4: acceleration</li>
+        <ul>
+          <li>Accepts a numerical value of acceleration as a parameter. Defaults to 0 if nothing is provided.</li>
+        </ul>
+        <li>Calculates the direction and speed of the projectile and sets the current projectile's speed and
+          acceleration to be the input speed and acceleration, respectively. Sets the path type to be “tracking” for
+          further updating in the update function.</li>
+      </ul>
+      <li>setParabola(target, maxPerpendicularAmplitude, speed, acceleration)</li>
+      <ul>
+        <li>Parameter 1: target</li>
+        <ul>
+          <li>Accepts an input transform of an object as a parameter. Defaults to null if nothing is provided.</li>
+        </ul>
+        <li>Parameter 2: maxPerpendicularAmplitude</li>
+        <ul>
+          <li>Sets the max perpendicular amplitude to be the input parameter. Defaults to 0 if nothing is provided.</li>
+        </ul>
+        <li>Parameter 3: speed</li>
+        <ul>
+          <li>Accepts a numerical value of speed as a parameter. Defaults to 0 if nothing is provided.</li>
+        </ul>
+        <li>Parameter 4: acceleration</li>
+        <ul>
+          <li>Accepts a numerical value of acceleration as a parameter. Defaults to 0 if nothing is provided.</li>
+        </ul>
+        <li>Calculates the path of the projectile based on the input maxPerpendicular, speed, and acceleration.</li>
+      </ul>
+      <li>setParabola(direction, speed, forceDirection, forceMagnitude)</li>
+      <ul>
+        <li>Parameter 1: direction</li>
+        <ul>
+          <li>Accepts a direction value as a parameter. Defaults to null if nothing is provided.</li>
+        </ul>
+        <li>Parameter 2: speed</li>
+        <ul>
+          <li>Accepts a numerical value of speed as a parameter. Defaults to 0 if nothing is provided.</li>
+        </ul>
+        <li>Parameter 3: forceDirection</li>
+        <ul>
+          <li>Accepts a force direction value as a parameter</li>
+        </ul>
+        <li>Parameter 4: forceMagnitude</li>
+        <ul>
+          <li>Accepts a force magnitude value as a parameter</li>
+        </ul>
+        <li>Uses physics to calculate the path trajectory and overall structure based on all the input parameters that
+          are provided by the users.</li>
+      </ul>
+      <li>onSpawn()</li>
+      <ul>
+        <li>No parameters needed</li>
+        <li>Defines the behavioral effects of the projectile once the projectile has been spawned. These differ from
+          path type and acceleration and speed and all.</li>
+      </ul>
+      <li>onTermination()</li>
+      <ul>
+        <li>No parameters needed</li>
+        <li>Defines the behavioral effects of the projectile once the projectile has been terminated. These differ from
+          path type and acceleration and speed and all.</li>
+      </ul>
+      <li>inFlight()</li>
+      <ul>
+        <li>No parameters needed</li>
+        <li>Defines the behavioral effects of the projectile once the projectile is in flight. These differ from
+          path type and acceleration and speed and all.</li>
+      </ul>
+      <li>draw(camera)</li>
+      <ul>
+        <li>Parameter 1: camera</li>
+        <li>Draws all the valid trail renderables and the projectile itself on the input camera.</li>
+      </ul>
+      <li>checkObjectLifespan()</li>
+      <ul>
+        <li>No parameters needed</li>
+        <li>Checks to see if any of the trail renderables are valid. If they are invalid, they are deleted from the set
+          that holds all of the trail renderables within each projectile.</li>
+      </ul>
+      <li>update()</li>
+      <ul>
+        <li>No parameters needed</li>
+        <li>Updates the location, direction, and speed of the projectile, and all of the trail renderables that are
+          associated with the individual projectile object.</li>
+      </ul>
+    </ul>
+  </div>
+  <h4 style="color: blue;">Trail Renderable</h4>
+  <div>
+    <ul>
+      <li>TrailRenderable(renderable, _lifeTime, xform, size)</li>
+      <ul>
+        <li>Parameter 1: renderable</li>
+        <ul>
+          <li>Accepts a string value for a renderable which the Trail Renderable class will use in the future to get
+            further image processing.</li>
+        </ul>
+        <li>Parameter 2: _lifeTime</li>
+        <ul>
+          <li>Defines the lifetime of the trail renderable such that after the lifetime has elapsed, the trail
+            renderable will no longer be valid</li>
+        </ul>
+        <li>Parameter 3:xform</li>
+        <ul>
+          <li>Accepts the projectile's transform information so that the location and rotation can easily be set for the
+            trail renderable.</li>
+        </ul>
+        <li>Parameter 4: size</li>
+        <ul>
+          <li>Accepts a 2-element array for width and height of the trail renderable. Defaults to width 5 and height 3
+            if nothing is provided by the user.</li>
+        </ul>
+        <li>This constructor sets up the trail renderable object and defines the necessary functionality needed
+          throughout the entire class, which includes, but is not limited to the following:</li>
+        <ul>
+          <li>Trail renderable validity</li>
+          <li>Trail renderable</li>
+          <li>Trail lifetime</li>
+          <li>Trail creation time</li>
+        </ul>
+      </ul>
+      <li>update()</li>
+      <ul>
+        <li>No parameters needed</li>
+        <li>Checks to see whether the current trail renderable's lifetime has elapsed and if it has, the trail
+          renderable is set to invalid.</li>
+      </ul>
+      <li>terminate()</li>
+      <ul>
+        <li>No parameters needed</li>
+        <li>Sets the trail renderable to be invalid.</li>
+      </ul>
+    </ul>
+  </div>
+  <h3 style="text-decoration: underline;">Edits to Current Engine API</h3>
+  <h4 style="color: blue;">Transform</h4>
+  NOTE: The client never needs to access this code. This content was included because it was not part of the original
+  game engine API.
+  <ul>
+    <li>getCenterPos()</li>
+    <ul>
+      <li>No parameters needed</li>
+      <li>Gets the center position of the transform that you are trying to get. This makes our arithmetic slightly
+        easier for tracking projectile moment and other things.</li>
+    </ul>
+  </ul>
+  <h2><a href="tutorial.html">Tutorial</a></h2>
+  <h2><a href="https://amaswauw.github.io/final-project-452/">Demo</a></h2>
+</body>
