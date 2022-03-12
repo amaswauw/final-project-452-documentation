@@ -5,6 +5,7 @@
 </head>
 
 <body>
+  <p><a href="index.html">Back to Documentation</a></p>
   <div>
     Aman Swaroop, Kuzey Gok, Myles Dalton<br>
     UWB CSS 452 | Professor Kelvin Sung<br>
@@ -97,8 +98,126 @@
       <h3>
         <li>Straight Projectile Path Type</li>
       </h3>
+      The way for which we have straight projectiles set up at the moment, we will require 5 parameters as an input
+      (some of which can be left null). The next three sections will cover how to call each use case of the straight
+      projectile path type.
+      <ol type="i">
+        <h4>
+          <li>Straight Target Projectile Path</li>
+        </h4>
+        If you would like a projectile to go straight towards a target and not change its direction or deviate, this
+        would be the function to call. To do this, let us take for example that we have an object, named
+        <strong>this.kPortal</strong> set up. We would then call the straight target projectile path method, like
+        this:
+        <blockquote><strong>this.mProjectile.setStraight(this.kPortal, null, null, 0.3, 0.01);</strong></blockquote>
+        This would, for reference, set the target to be the kPortal's location at the time of the call (i.e., if the
+        kPortal moves, the projectile will not follow), it sets the target point to be null, target direction to be
+        null, the speed of the projectile to be 0.3, and finally the acceleration of the projectile to be 0.01.
+        <h4>
+          <li>Straight TargetPoint Projectile Path</li>
+        </h4>
+        If you would like a projectile to go straight towards a point and not change its direction or deviate, this
+        would be the function to call. To do this, we would call the function as follows:
+        <blockquote><strong>this.mProjectile.setStraight(null, vec2.fromValues(0, 1), null, 0.3, 0.01);</strong>
+        </blockquote>
+        This would, for reference, set the target to null, it sets the target point to be the vec2 value [0, 1] (i.e.,
+        the projectile will move towards the coordinate [0, 1]), target direction to be null, the speed of the
+        projectile to be 0.3, and finally the acceleration of the projectile to be 0.01.
+        <h4>
+          <li>Straight TargetDirection Projectile Path</li>
+        </h4>
+        If you would like a projectile to move towards a direction and not change that direction or deviat, this would
+        be the function to call. To do this, we would call the function as follows:
+        <blockquote><strong>this.mProjectile.setStraight(null, null, vec2.fromValues(0, 1), 0.3, 0.01);</strong>
+        </blockquote>
+        This would, for reference, set the target to null, it sets the target point to be null, target direction to be
+        the vec2 value [0, 1] (i.e., the projectile will move upward in the direction [0, 1]), the speed of the
+        projectile to be 0.3, and finally the acceleration of the projectile to be 0.01.
+      </ol><br>
+      Each of the following will take in a speed and acceleration variable which the projectile class will use to
+      calculate the overall speed and acceleration of the projectile as it updates throughout the course of its
+      lifetime.
+      <h3>
+        <li>Tracking Projectile Path Type</li>
+      </h3>
+      The way for which we have tracking projectiles set up at the moment, we will require 4 parameters as an input. The
+      next two sections will cover how to call each use case of the tracking projectile path type.
+      <ol type="i">
+        <h4>
+          <li>Tracking Game Object Projectile Path</li>
+        </h4>
+        If the input for the first parameter is a game object, then the following type of tracking will occur. This type
+        of tracking ensures that the game object will be followed until the projectile comes into contact with the game
+        object. To do this, let us take for example that we have an object, named <strong>this.kPortal</strong> set up.
+        We would then call the tracking projectile path method, like this:
+        <blockquote><strong>this.mProjectile.setTracking(this.kPortal, Math.PI/2, 0.1, 0);</strong></blockquote>
+        This would, for reference, set the target to be the game object <strong>this.kPortal</strong>. It would also set
+        the max rotation to be pi/2 (the max rotation, would in turn, prevent the projectile from turning more than it
+        as the projectile tries to follow the game object). This would also set the object speed to be 0.1 and the
+        acceleration to be 0.
+        <h4>
+          <li>Tracking Mouse Projectile Path</li>
+        </h4>
+        If the input for the first parameter is not a game object, then the following type of tracking will occur, no
+        matter what is in the first parameter location. This type of tracking ensures that the mouse location will be
+        tracked until the projectile hits the mouse pointer's location. To do this, we would call the tracking
+        projectile method, passing in the location of the mouse pointer, like this:
+        <blockquote><strong>this.mProjectile.setTracking([input.getMousePosX(), input.getMousePosY()], Math.PI/2, 0.1,
+            0);</strong></blockquote>
+        This would, for reference, set the target to be the mouse pointer's location in the world. It would also set the
+        max rotation to be pi/2 (the max rotation, would in turn, prevent the projectile from turning more than it as
+        the projectile tries to follow the game object. This would also set the object speed to be 0.1 and the
+        acceleration to be 0.
+      </ol>
+      <h3>
+        <li>Parabolic Projectile Path Type</li>
+      </h3>
+      <ol type="i">
+        <h4>
+          <li>Function 1</li>
+        </h4>
+        This would be a more calculus based approach to the parabolic path type. In this function call, you would give
+        it a target, which could be either one of two things, a game object or a point, and the function would calculate
+        the path of the parabola that the projectile would take based on the maxPerpendicularAmplitude.
+        <ol type="1">
+          <h5>
+            <li>Game Object Parabolic Motion</li>
+          </h5>
+          If the input for the first parameter is a game object, then the following type of parabolic motion will occur.
+          This type of parabolic motion ensures that the game object will be originally followed until (or unless) the
+          projectile moves. To do this, let us take for example that we have an object, named
+          <strong>this.kPortal</strong> set up. We would then call the tracking projectile path method, like this:
+          <blockquote><strong>this.mProjectile.setParabolic(this.kPortal, 10, 0.1, 0);</strong></blockquote>
+          This would, for reference, set the target to be the game object <strong>this.kPortal</strong>. It would also
+          set the max perpendicular amplitude to be 10 (the max perpendicular amplitude, would in turn, prevent the
+          projectile from going higher than 10 units from the start point of the projectile). This would also set the
+          object speed to be 0.1 and the acceleration to be 0.
+          <h5>
+            <li>Mouse Location Parabolic Motion</li>
+          </h5>
+          If the input for the first parameter is not a game object, then the following type of parabolic motion will
+          occur, no matter what is in the first parameter location. This type of parabolic motion ensures that the mouse
+          location will be originally followed until (or unless) the mouse pointer's location moves. To do this, we
+          would call the parabolic projectile path method, passing in the location of the mouse pointer, like this:
+          <blockquote><strong>this.mProjectile.setParabolic([input.getMousePosX(), input.getMousePosY()], 10, 0.1,
+              0);</strong></blockquote>
+          This would, for reference, set the target to be the mouse pointer's location in the world. It would also set
+          the max perpendicular amplitude to be 10 (the max perpendicular amplitude, would in turn, prevent the
+          projectile from going higher than 10 units from the start point of the projectile). This would also set the
+          object speed to be 0.1 and the acceleration to be 0.
+        </ol>
+        <h4>
+          <li>Function 2</li>
+        </h4>
+        This would be a more physics based approach to the parabolic path type. In this function call, you would give it
+        a direction, force direction, and force magnitude, and the function would calculate the path of the parabola
+        based on the direction, speed, force direction, and force magnitude. An example of this would be the following:
+        <blockquote><strong>this.mProjectile.setParabolic(vec2.fromValues(1, 1), 0.3, 4, 4);</strong></blockquote>
+        This would, for reference, set the direction to be the vec2 value [1, 1] (i.e., the projectile will move
+        diagonally in the direction [1, 1]) with a speed of 0.3, a force direction of 4 and a force magnitude of 4 as
+        well.
+      </ol>
     </ol>
-
     <h2>
       <li>Final Steps</li>
     </h2>
