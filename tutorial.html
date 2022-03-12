@@ -11,5 +11,113 @@
     03/11/2022
   </div>
   <h1 style="text-align: center;">Projectile Systems SDK Tutorial</h1>
-  <h2>Setting up the environment</h2>
+  <ol>
+    <h2>
+      <li>Setting up the environment</li>
+    </h2>
+    The first step to setting up the environment is picking out a few images that you would like to use for the
+    projectile and trail renderables. Once you have those selected, then you can use the texture engine to load them in.
+    This can be accomplished by doing the following:
+    <img src="assets/bg.png" alt="Background Image" width="500" height="auto"><br>
+    The picture above is of the background that we will be using throughout the project. For simplicity, we will be
+    calling the file that we are storing this in <strong>background.png</strong>, and the variable associated with it
+    <strong>kBackground</strong>, such that
+    <blockquote><strong>this.kBackground = “assets/background.png”;</strong> // Save all your images in the assets
+      folder associated with your project.</blockquote>
+    <img src="assets/bullet_trail.png" alt="Projectile Trail"><br>
+    This picture above is of the projectile's trail that we will be using throughout the project. For simplicity, we
+    will be calling the file that we are storing this in <strong>trail.png</strong>, and the variable associated with it
+    <strong>kTrail</strong>, such that
+    <blockquote><strong>this.kTrail = “assets/trail.png”;</strong></blockquote>
+    <img src="assets/second_beam.png" alt="Bullet Projectile"><br>
+    This picture above is of the projectile's trail that we will be using throughout the project. For simplicity, we
+    will be calling the file that we are storing this in <strong>bullet-projectile.png</strong>, and the variable
+    associated with it <strong>kBullet</strong>, such that
+    <blockquote><strong>this.kBullet = “assets/bullet-projectile.png”;</strong></blockquote>
+    <img src="assets/Terra_Blade_Beam.png" alt="Sword Projectile"><br>
+    This picture above is of the projectile's trail that we will be using throughout the project. For simplicity, we
+    will be calling the file that we are storing this in <strong>sword-projectile.png</strong>, and the variable
+    associated with it <strong>kSword</strong>, such that
+    <blockquote><strong>this.kSword = “assets/sword-projectile.png”;</strong></blockquote>
+    <h2>
+      <li>Loading textures</li>
+    </h2>
+    Once you have found the pictures that you are going to use throughout the project, the next step that must be done
+    is the loading of the images. This can be done with the following lines of code inside of the draw function in
+    <b><i>my_game.js</i></b>.
+    <blockquote><strong>
+        engine.texture.load(this.kBackground);<br>
+        engine.texture.load(this.kTrail);<br>
+        engine.texture.load(this.kBullet);<br>
+        engine.texture.load(this.kSword);
+      </strong></blockquote>
+    <i>NOTE: To call the functions above, you must have also imported engine from “../engine/index.js”. This should be
+      done automatically, but in case it is not, please write at the top of the file (underneath the “use strict”;) the
+      following line of code:</i>
+    <blockquote><b>import engine from “../engine/index.js”;</b></blockquote>
+    <h2>
+      <li>Initializing the Projectile Object</li>
+    </h2>
+    There are many different variations of the projectile constructor (as we have allowed for ones with and without
+    trails). This tutorial will go through setting up both projectiles with and without trails. <br>
+    In either case, you will need to import the Projectile class. This can be done with the following line of code:
+    <blockquote><strong>import Projectile from "../engine/game_objects/projectile.js"</strong></blockquote>
+    <ol type="a">
+      <h3>
+        <li>Projectiles with Trails</li>
+      </h3>
+      Assuming everything has loaded correctly and you have been keeping up with the tutorial to this point, you can
+      initialize the Projectile object with the following line of code:
+      <blockquote><strong>this.mProjectile = new Projectile(this.kBullet, Infinity, this.kTrail, 500, 10);</strong>
+      </blockquote>
+      As a reminder, the first parameter represents the projectile's renderable (which we defined earlier - in step 1),
+      the second parameter represents the projectile's lifetime (in the example, we set it to be Infinity, but you can
+      change it for how long you would like it to be), the third parameter represents the projectile's trail renderable
+      (which we defined earlier - in step 1), the fourth parameter represents the projectile's trail's lifetime (in the
+      example we set it to 500 milliseconds but you can change it for how long you would like it to be), and the final
+      parameter is the trail interval, which is the duration (in milliseconds) between each trail's creation (we have
+      set it to be 10 milliseconds but you can set it how you would like it to be).<br><br>
+      This will in turn create a projectile object with the trail renderable!
+      <h3>
+        <li>Projectiles without Trails</li>
+      </h3>
+      The projectiles without trails are very similar to the projectiles with trails. The only thing that is different
+      is the fact that the constructor takes in less parameters. The new method call would look like this:
+      <blockquote><strong>this.mProjectile = new Projectile(this.kBullet, Infinity);</strong></blockquote>
+      As a reminder, the first parameter represents the projectile's renderable (which we defined earlier - in step 1),
+      the second parameter represents the projectile's lifetime (in the example, we set it to be Infinity, but you can
+      change it for how long you would like it to be).
+    </ol>
+    <h2>
+      <li>Setting the Projectile's Path Type</li>
+    </h2>
+    Our projectile class currently supports 3 different types of Projectile path types, straight, tracking, and
+    parabolic. This section will walk through how to set each one up in detail.
+    <ol type="a">
+      <h3>
+        <li>Straight Projectile Path Type</li>
+      </h3>
+    </ol>
+
+    <h2>
+      <li>Final Steps</li>
+    </h2>
+    As the final steps of the projectile creation process, all that is left to do is draw and update the projectile
+    inside of <b><i>my_game.js</i></b>. This will be done in the <strong>draw()</strong> and <strong>update()</strong>
+    methods, respectively.
+    <ol type="a">
+      <h3>
+        <li>Drawing Projectile</li>
+      </h3>
+      To draw the projectile, please use the write the following lines of code within <b><i>my_game.js</i></b> in the
+      <b>draw()</b> function:
+      <blockquote><strong>this.mProjectile.draw();</strong></blockquote>
+      <h3>
+        <li>Updating Projectile</li>
+      </h3>
+      To update the projectile, please use the write the following lines of code within <b><i>my_game.js</i></b> in the
+      <b>update()</b> function:
+      <blockquote><strong>this.mProjectile.update();</strong></blockquote>
+    </ol>
+  </ol>
 </body>
