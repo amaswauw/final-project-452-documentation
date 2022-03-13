@@ -212,9 +212,9 @@
         This would be a more physics based approach to the parabolic path type. In this function call, you would give it
         a direction, force direction, and force magnitude, and the function would calculate the path of the parabola
         based on the direction, speed, force direction, and force magnitude. An example of this would be the following:
-        <blockquote><strong>this.mProjectile.setParabolic(vec2.fromValues(1, 1), 0.3, 4, 4);</strong></blockquote>
+        <blockquote><strong>this.mProjectile.setParabolic(vec2.fromValues(1, 1), 0.3, [0, 1], 4);</strong></blockquote>
         This would, for reference, set the direction to be the vec2 value [1, 1] (i.e., the projectile will move
-        diagonally in the direction [1, 1]) with a speed of 0.3, a force direction of 4 and a force magnitude of 4 as
+        diagonally in the direction [1, 1]) with a speed of 0.3, a force direction of [0, 1] and a force magnitude of 4 as
         well.
       </ol>
     </ol>
