@@ -21,25 +21,21 @@
     This can be accomplished by doing the following:<br>
     <img src="assets/bg.png" alt="Background Image" width="500" height="auto"><br>
     The picture above is of the background that we will be using throughout the project. For simplicity, we will be
-    calling the file that we are storing this in <strong>background.png</strong>, and the variable associated with it
-    <strong>kBackground</strong>, such that
-    <blockquote><strong>this.kBackground = “assets/background.png”;</strong> // Save all your images in the assets
+    calling the file that we are storing this in <strong>bg.png</strong>, and the variable associated with it
+    <strong>kBg</strong>, such that
+    <blockquote><strong>this.kBg = “assets/bg.png”;</strong> // Save all your images in the assets
       folder associated with your project.</blockquote>
     <img src="assets/bullet_trail.png" alt="Projectile Trail"><br>
     This picture above is of the projectile's trail that we will be using throughout the project. For simplicity, we
-    will be calling the file that we are storing this in <strong>trail.png</strong>, and the variable associated with it
-    <strong>kTrail</strong>, such that
-    <blockquote><strong>this.kTrail = “assets/trail.png”;</strong></blockquote>
+    will be calling the file that we are storing this in <strong>bullet_trail.png</strong>, and the variable associated
+    with it
+    <strong>kT</strong>, such that
+    <blockquote><strong>this.kTrail = “assets/bullet_trail.png”;</strong></blockquote>
     <img src="assets/second_beam.png" alt="Bullet Projectile"><br>
     This picture above is of the projectile's trail that we will be using throughout the project. For simplicity, we
-    will be calling the file that we are storing this in <strong>bullet-projectile.png</strong>, and the variable
-    associated with it <strong>kBullet</strong>, such that
-    <blockquote><strong>this.kBullet = “assets/bullet-projectile.png”;</strong></blockquote>
-    <img src="assets/Terra_Blade_Beam.png" alt="Sword Projectile"><br>
-    This picture above is of the projectile's trail that we will be using throughout the project. For simplicity, we
-    will be calling the file that we are storing this in <strong>sword-projectile.png</strong>, and the variable
-    associated with it <strong>kSword</strong>, such that
-    <blockquote><strong>this.kSword = “assets/sword-projectile.png”;</strong></blockquote>
+    will be calling the file that we are storing this in <strong>missile.png</strong>, and the variable
+    associated with it <strong>kMissile</strong>, such that
+    <blockquote><strong>this.kMissile = “assets/missile.png”;</strong></blockquote>
     <h2>
       <li>Loading textures</li>
     </h2>
@@ -47,10 +43,9 @@
     is the loading of the images. This can be done with the following lines of code inside of the draw function in
     <b><i>my_game.js</i></b>.
     <blockquote><strong>
-        engine.texture.load(this.kBackground);<br>
-        engine.texture.load(this.kTrail);<br>
-        engine.texture.load(this.kBullet);<br>
-        engine.texture.load(this.kSword);
+        engine.texture.load(this.kBg);<br>
+        engine.texture.load(this.kT);<br>
+        engine.texture.load(this.kMissile);
       </strong></blockquote>
     <i>NOTE: To call the functions above, you must have also imported engine from “../engine/index.js”. This should be
       done automatically, but in case it is not, please write at the top of the file (underneath the “use strict”;) the
@@ -69,7 +64,7 @@
       </h3>
       Assuming everything has loaded correctly and you have been keeping up with the tutorial to this point, you can
       initialize the Projectile object with the following line of code:
-      <blockquote><strong>this.mProjectile = new Projectile(this.kBullet, Infinity, this.kTrail, 500, 10);</strong>
+      <blockquote><strong>this.mProjectile = new Projectile(this.kMissile, Infinity, this.kTrail, 500, 10);</strong>
       </blockquote>
       As a reminder, the first parameter represents the projectile's renderable (which we defined earlier - in step 1),
       the second parameter represents the projectile's lifetime (in the example, we set it to be Infinity, but you can
@@ -84,7 +79,7 @@
       </h3>
       The projectiles without trails are very similar to the projectiles with trails. The only thing that is different
       is the fact that the constructor takes in less parameters. The new method call would look like this:
-      <blockquote><strong>this.mProjectile = new Projectile(this.kBullet, Infinity);</strong></blockquote>
+      <blockquote><strong>this.mProjectile = new Projectile(this.kMissile, Infinity);</strong></blockquote>
       As a reminder, the first parameter represents the projectile's renderable (which we defined earlier - in step 1),
       the second parameter represents the projectile's lifetime (in the example, we set it to be Infinity, but you can
       change it for how long you would like it to be).
@@ -155,66 +150,22 @@
         the max rotation to be pi/2 (the max rotation, would in turn, prevent the projectile from turning more than it
         as the projectile tries to follow the game object). This would also set the object speed to be 0.1 and the
         acceleration to be 0.
-        <h4>
-          <li>Tracking Mouse Projectile Path</li>
-        </h4>
-        If the input for the first parameter is not a game object, then the following type of tracking will occur, no
-        matter what is in the first parameter location. This type of tracking ensures that the mouse location will be
-        tracked until the projectile hits the mouse pointer's location. To do this, we would call the tracking
-        projectile method, passing in the location of the mouse pointer, like this:
-        <blockquote><strong>this.mProjectile.setTracking([input.getMousePosX(), input.getMousePosY()], Math.PI/2, 0.1,
-            0);</strong></blockquote>
-        This would, for reference, set the target to be the mouse pointer's location in the world. It would also set the
-        max rotation to be pi/2 (the max rotation, would in turn, prevent the projectile from turning more than it as
-        the projectile tries to follow the game object. This would also set the object speed to be 0.1 and the
-        acceleration to be 0.
       </ol>
       <h3>
         <li>Parabolic Projectile Path Type</li>
       </h3>
       <ol type="i">
         <h4>
-          <li>Function 1</li>
-        </h4>
-        This would be a more calculus based approach to the parabolic path type. In this function call, you would give
-        it a target, which could be either one of two things, a game object or a point, and the function would calculate
-        the path of the parabola that the projectile would take based on the maxPerpendicularAmplitude.
-        <ol type="1">
-          <h5>
-            <li>Game Object Parabolic Motion</li>
-          </h5>
-          If the input for the first parameter is a game object, then the following type of parabolic motion will occur.
-          This type of parabolic motion ensures that the game object will be originally followed until (or unless) the
-          projectile moves. To do this, let us take for example that we have an object, named
-          <strong>this.kPortal</strong> set up. We would then call the tracking projectile path method, like this:
-          <blockquote><strong>this.mProjectile.setParabolic(this.kPortal, 10, 0.1, 0);</strong></blockquote>
-          This would, for reference, set the target to be the game object <strong>this.kPortal</strong>. It would also
-          set the max perpendicular amplitude to be 10 (the max perpendicular amplitude, would in turn, prevent the
-          projectile from going higher than 10 units from the start point of the projectile). This would also set the
-          object speed to be 0.1 and the acceleration to be 0.
-          <h5>
-            <li>Mouse Location Parabolic Motion</li>
-          </h5>
-          If the input for the first parameter is not a game object, then the following type of parabolic motion will
-          occur, no matter what is in the first parameter location. This type of parabolic motion ensures that the mouse
-          location will be originally followed until (or unless) the mouse pointer's location moves. To do this, we
-          would call the parabolic projectile path method, passing in the location of the mouse pointer, like this:
-          <blockquote><strong>this.mProjectile.setParabolic([input.getMousePosX(), input.getMousePosY()], 10, 0.1,
-              0);</strong></blockquote>
-          This would, for reference, set the target to be the mouse pointer's location in the world. It would also set
-          the max perpendicular amplitude to be 10 (the max perpendicular amplitude, would in turn, prevent the
-          projectile from going higher than 10 units from the start point of the projectile). This would also set the
-          object speed to be 0.1 and the acceleration to be 0.
-        </ol>
-        <h4>
           <li>Function 2</li>
         </h4>
         This would be a more physics based approach to the parabolic path type. In this function call, you would give it
-        a direction, acceleration direction, and acceleration magnitude, and the function would calculate the path of the parabola
+        a direction, acceleration direction, and acceleration magnitude, and the function would calculate the path of
+        the parabola
         based on the direction, speed, force direction, and force magnitude. An example of this would be the following:
         <blockquote><strong>this.mProjectile.setParabolic(vec2.fromValues(1, 1), 0.3, [0, 1], 4);</strong></blockquote>
         This would, for reference, set the direction to be the vec2 value [1, 1] (i.e., the projectile will move
-        diagonally in the direction [1, 1]) with a speed of 0.3, a force direction of [0, 1] and a force magnitude of 4 as
+        diagonally in the direction [1, 1]) with a speed of 0.3, a force direction of [0, 1] and a force magnitude of 4
+        as
         well.
       </ol>
     </ol>
@@ -223,20 +174,23 @@
     </h2>
     As the final steps of the projectile creation process, all that is left to do is draw and update the projectile
     inside of <b><i>my_game.js</i></b>. This will be done in the <strong>draw()</strong> and <strong>update()</strong>
-    methods, respectively.
+    methods, respectively.<br>
+    Furthermore, to create your own, personalized, unique projectile, you can extend the main projectile class to create
+    multiple different types of projectiles that work in unison in your game.
     <ol type="a">
       <h3>
         <li>Drawing Projectile</li>
       </h3>
       To draw the projectile, please use the write the following lines of code within <b><i>my_game.js</i></b> in the
-      <b>draw()</b> function:
-      <blockquote><strong>this.mProjectile.draw();</strong></blockquote>
+      <b>draw()</b> function:<br>
+      If you have multiple projectiles, it is beneficial to call <strong>Projectile.drawAllProjectiles()</strong> to
+      draw all projectiles without the worry of losing track.
       <h3>
         <li>Updating Projectile</li>
       </h3>
       To update the projectile, please use the write the following lines of code within <b><i>my_game.js</i></b> in the
-      <b>update()</b> function:
-      <blockquote><strong>this.mProjectile.update();</strong></blockquote>
+      <b>update()</b> function:<br>
+      If you have multiple projectiles, it is beneficial to call <strong>Projectile.updateAllProjectiles()</strong> to update all projectiles without the worry of losing track.
     </ol>
   </ol>
 </body>

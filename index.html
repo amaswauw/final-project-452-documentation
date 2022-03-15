@@ -76,6 +76,10 @@
           <li>The value is defaulted to 1000 milliseconds in the case that the user has not defined a value for this
             parameter.</li>
         </ul>
+        <li>Parameter 6: _trailSize</li>
+        <ul>
+          <li>Defines the size of the trail that will follow the projectile.</li>
+        </ul>
         <li>This constructor sets up the projectile object and defines the necessary functionality needed throughout the
           entire class, which includes, but is not limited to the following:</li>
         <ul>
@@ -109,15 +113,15 @@
         <li>Spawns a trail renderable if the projectile is valid, a trail renderable is defined, and the total amount of
           time elapsed is greater than or equal to the trail timer</li>
       </ul>
-      <li>setTrailSize(x, y)</li>
+      <li>setTrailSize(w, h)</li>
       <ul>
-        <li>Parameter 1: x</li>
+        <li>Parameter 1: w</li>
         <ul>
-          <li>Accepts a numerical value for the x parameter which defines the total width of the trail renderable</li>
+          <li>Accepts a numerical value for the w parameter which defines the total width of the trail renderable</li>
         </ul>
-        <li>Parameter 2: y</li>
+        <li>Parameter 2: h</li>
         <ul>
-          <li>Accepts a numerical value for the y parameter which defines the total height of the trail renderable</li>
+          <li>Accepts a numerical value for the h parameter which defines the total height of the trail renderable</li>
         </ul>
         <li>Sets the size of the trail renderable based on the input x and y variables. (x notates the width of the
           renderable and y notates the height of the trail renderable)</li>
@@ -140,12 +144,20 @@
         </ul>
         <li>Sets the current projectile's lifetime value to be the input parameter's value of lifetime.</li>
       </ul>
-      <li>bounce(gameObjectTypes)</li>
+      <li>
+        SetReflectingPrototypes(gameObjectPrototypes = [])</li>
       <ul>
-        <li>Parameter 1: gameObjectTypes</li>
+        <li> Parameter 1: GameObjectPrototypes</li>
         <ul>
-          <li>Accepts an array of game object types as a parameter.</li>
+          <li>Accepts an array of types of game objects to bounce</li>
         </ul>
+        <li>Sets the type of game objects that the projectile can bounce from</li>
+
+
+      </ul>
+
+      <li>reflect()</li>
+      <ul>
         <li>Checks to see whether the game object types are of the correct type and bounces off the object if it is.
         </li>
       </ul>
@@ -174,6 +186,11 @@
         <li>Calculates the direction and speed of a projectile and sets the current projectile's speed and acceleration
           to be the input speed and acceleration, respectively.</li>
       </ul>
+      <li>calcNewRotate()</li>
+      <ul>
+        <li>Takes no parameters and is a helper function that is used to find the degrees of the rotation of the
+          projectile.</li>
+      </ul>
       <li>setTracking(target, maxRotation, speed, acceleration)</li>
       <ul>
         <li>Parameter 1: target</li>
@@ -197,26 +214,6 @@
           acceleration to be the input speed and acceleration, respectively. Sets the path type to be “tracking” for
           further updating in the update function.</li>
       </ul>
-      <li>setParabola(target, maxPerpendicularAmplitude, speed, acceleration)</li>
-      <ul>
-        <li>Parameter 1: target</li>
-        <ul>
-          <li>Accepts an input transform of an object as a parameter. Defaults to null if nothing is provided.</li>
-        </ul>
-        <li>Parameter 2: maxPerpendicularAmplitude</li>
-        <ul>
-          <li>Sets the max perpendicular amplitude to be the input parameter. Defaults to 0 if nothing is provided.</li>
-        </ul>
-        <li>Parameter 3: speed</li>
-        <ul>
-          <li>Accepts a numerical value of speed as a parameter. Defaults to 0 if nothing is provided.</li>
-        </ul>
-        <li>Parameter 4: acceleration</li>
-        <ul>
-          <li>Accepts a numerical value of acceleration as a parameter. Defaults to 0 if nothing is provided.</li>
-        </ul>
-        <li>Calculates the path of the projectile based on the input maxPerpendicular, speed, and acceleration.</li>
-      </ul>
       <li>setParabola(direction, speed, accDirection, accMagnitude)</li>
       <ul>
         <li>Parameter 1: direction</li>
@@ -238,22 +235,10 @@
         <li>Uses physics to calculate the path trajectory and overall structure based on all the input parameters that
           are provided by the users.</li>
       </ul>
-      <li>onSpawn()</li>
-      <ul>
-        <li>No parameters needed</li>
-        <li>Defines the behavioral effects of the projectile once the projectile has been spawned. These differ from
-          path type and acceleration and speed and all.</li>
-      </ul>
       <li>onTermination()</li>
       <ul>
         <li>No parameters needed</li>
         <li>Defines the behavioral effects of the projectile once the projectile has been terminated. These differ from
-          path type and acceleration and speed and all.</li>
-      </ul>
-      <li>inFlight()</li>
-      <ul>
-        <li>No parameters needed</li>
-        <li>Defines the behavioral effects of the projectile once the projectile is in flight. These differ from
           path type and acceleration and speed and all.</li>
       </ul>
       <li>draw(camera)</li>
@@ -273,6 +258,17 @@
         <li>Updates the location, direction, and speed of the projectile, and all of the trail renderables that are
           associated with the individual projectile object.</li>
       </ul>
+      <li>Static updateAllProjectiles()</li>
+      <ul>
+        <li>
+          Static function that will update all of the projectiles in the game object set.</li>
+      </ul>
+      <li>Static drawallProjectiles()</li>
+      <ul>
+        <li>Static function that will draw all of the projectiles in the game object set.</li>
+      </ul>
+
+
     </ul>
   </div>
   <h4 style="color: blue;">Trail Renderable</h4>
@@ -329,12 +325,23 @@
   NOTE: The client never needs to access this code. This content was included because it was not part of the original
   game engine API.
   <ul>
-    <li>getCenterPos()</li>
+    <li>getCorners()
+    </li>
     <ul>
       <li>No parameters needed</li>
-      <li>Gets the center position of the transform that you are trying to get. This makes our arithmetic slightly
-        easier for tracking projectile moment and other things.</li>
+      <li>Get the corners of the transform that you are trying to get. This makes our arithmetic slightly easier for
+        tracking projectile movement and other things.</li>
     </ul>
+  </ul>
+  <h4 style="color: blue;">GameObject</h4>
+  NOTE: The client never needs to access this code. This content was included because it was not part of the original game engine API.
+  <ul>
+    <li>Added fields to update gameobject set to keep track of all elements in the game object set</li>
+  </ul>
+  <h4 style="color: blue;">Input</h4>
+  NOTE: The client never needs to access this code. This content was included because it was not part of the original game engine API.
+  <ul>
+    <li>Added fields get previous key clicked and to get the shift key for accelerated movement</li>
   </ul>
   <h2><a href="tutorial.html">Tutorial</a></h2>
   <h2><a href="https://amaswauw.github.io/final-project-452/">Demo</a></h2>
